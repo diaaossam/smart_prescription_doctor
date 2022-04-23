@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "150278267400",
+    "project_id": "doctorapp-95b5b",
+    "storage_bucket": "doctorapp-95b5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150278267400:android:baf7e7010109f78c18e7bd",
+        "android_client_info": {
+          "package_name": "com.example.smart_prescription"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150278267400-mf8l8u62hit0hgqe8du1tah1c5rg18hg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smart_prescription",
+            "certificate_hash": "8a3c4c5c0b58ba97c12e5e4ce7b36fa18e86ca67"
+          }
+        },
+        {
+          "client_id": "150278267400-3hgaso88schv8oiel7si52ua8sruj2c7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCXC56D2EKQ0dFSbWfUDoi6WFobF7QNeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150278267400-3hgaso88schv8oiel7si52ua8sruj2c7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
