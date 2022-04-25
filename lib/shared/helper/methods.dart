@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'mangers/colors.dart';
 import 'mangers/constants.dart';
 
@@ -70,4 +71,8 @@ void showCustomProgressIndicator(BuildContext context) {
       return alertDialog;
     },
   );
+}
+
+String formatDate({required DateTime dateTime}){
+  return DateFormat.yMMMd().format(dateTime);
 }

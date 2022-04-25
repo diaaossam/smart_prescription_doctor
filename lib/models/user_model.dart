@@ -1,37 +1,54 @@
+class UserModel {
+  String? userName;
+  String? phone;
+  String? address;
+  String? image;
+  String? birthDate;
+  String? uid;
+  String? token;
+  bool? isDoctor;
+  String? doctorSpecialization;
+  String? doctorId;
 
-class UserModel{
-  String ? userName;
-  String ? phone;
-  String ? image ;
-  String ? uid;
-  String ? token;
-  bool ? isDoctor;
+  UserModel(
+      {required this.userName,
+      required this.phone,
+      required this.address,
+      required this.image,
+      this.uid,
+      this.token,
+     required this.birthDate,
+      required this.isDoctor,
+      this.doctorSpecialization,
+      this.doctorId});
 
-  UserModel({
-    required this.userName,
-    required this.phone,
-    required this.isDoctor,
-    required this.token,
-    this.image,
-    this.uid});
-
-  UserModel.fromJson(Map<String, dynamic> json){
-    userName = json ['userName'];
-    phone = json ['phone'];
-    image = json ['image'];
-    uid = json ['uid'];
+  UserModel.fromJson(Map<String, dynamic> json) {
+    birthDate= json['birthDate'];
+    userName = json['userName'];
+    phone = json['phone'];
+    address = json['address'];
+    image = json['image'];
+    uid = json['uid'];
+    token = json['token'];
     isDoctor = json['isDoctor'];
-    token=json['token'];
+    doctorSpecialization = json['doctorSpecialization'];
+    doctorId = json['doctorId'];
+
   }
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
-      'userName':userName,
-      'phone':phone,
-      'image':image,
-      'uid':uid,
-      'isDoctor':isDoctor,
-      'token':token,
+      'userName': userName,
+      'birthDate': birthDate,
+      'phone': phone,
+      'address': address,
+      'image': image,
+      'uid': uid,
+      'token': token,
+      'isDoctor': isDoctor,
+      'doctorSpecialization': doctorSpecialization,
+      'doctorId': doctorId,
+
     };
   }
 }
