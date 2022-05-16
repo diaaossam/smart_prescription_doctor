@@ -27,30 +27,6 @@ class ThemeManger {
       scaffoldBackgroundColor: Colors.white,
     );
   }
-  static ThemeData setDarkTheme() {
-    return  ThemeData(
-        appBarTheme: AppBarTheme(
-          elevation: 0.0,
-          color: ColorsManger.backgroundDarkColor,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.light,
-            statusBarColor: ColorsManger.backgroundDarkColor,
-          ),
-          actionsIconTheme:const  IconThemeData(
-            color: Colors.white,
-          ),
-          iconTheme: IconThemeData(color: Colors.white),
-        ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            selectedItemColor: ColorsManger.primaryColor,
-            unselectedItemColor: Colors.grey,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: ColorsManger.backgroundDarkColor),
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: ColorsManger.backgroundDarkColor,
-    );
-
-  }
 
 
   static OutlineInputBorder outlineInputBorder() {

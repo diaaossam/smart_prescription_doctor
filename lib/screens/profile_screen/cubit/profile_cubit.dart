@@ -15,24 +15,21 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
 
-
   static ProfileCubit get(context) => BlocProvider.of(context);
 
-
-
-  UserModel ? userModel;
+  UserModel? userModel;
 
   void getCurrentUserProfileInfo() {
     emit(LoadingUserInfoState());
     FirebaseFirestore.instance
         .collection(ConstantsManger.USERS)
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .snapshots().listen((user) {
+        .snapshots()
+        .listen((user) {
       userModel = UserModel.fromJson(user.data() ?? {});
       emit(GetUserInfoSuccessProfileState());
     });
   }
-
 
   var _picker = ImagePicker();
   File? profileImage;
@@ -51,10 +48,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     firebase_storage.FirebaseStorage.instance
         .ref()
         .child(
-        '${ConstantsManger.USERS}/profile/${Uri
-            .file(profileImage!.path)
-            .pathSegments
-            .last}')
+            '${ConstantsManger.USERS}/profile/${Uri.file(profileImage!.path).pathSegments.last}')
         .putFile(profileImage)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
@@ -69,5 +63,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     });
   }
 
-
+  void changeInfo({required Map<String, dynamic> map}) {
+    FirebaseFirestore.instance
+        .collection(ConstantsManger.USERS)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update(map).then((value) {
+          emit(UpdateUserInfoSuccess());
+    });
+  }
 }

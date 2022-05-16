@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:smart_prescription/models/pateint_history_model.dart';
+import 'package:smart_prescription/models/user_model.dart';
 import 'package:smart_prescription/shared/helper/mangers/constants.dart';
 
 part 'add_new_ex_state.dart';
@@ -34,8 +35,17 @@ class AddNewExCubit extends Cubit<AddNewExState> {
     }
   }
 
-  void _uploadProductImage(
-      {required String id, required File vedioFile}) async {
+  void uploadPatientExamination({required PatientHistoryModel model}) async{
+    emit(UploadExamitionInfoLoading());
+    await FirebaseFirestore.instance
+        .collection(ConstantsManger.PATIENTS)
+        .add(model.toMap())
+        .then((value) {
+      _uploadExaminationImages(id: '${value.id}');
+    });
+  }
+
+  void _uploadExaminationImages({required String id}) async {
     imagesUrl = [];
     for (int i = 0; i < patientImages.length; i++) {
       await firebase_storage.FirebaseStorage.instance
@@ -49,35 +59,67 @@ class AddNewExCubit extends Cubit<AddNewExState> {
         });
       });
     }
-    await firebase_storage.FirebaseStorage.instance
-        .ref("ProductVedios")
-        .child(id)
-        .putFile(vedioFile)
-        .then((vedio) {
-      vedio.ref.getDownloadURL().then((value) async {
-        await FirebaseFirestore.instance.collection("cars").doc(id).update(
-            {'id': id, 'image': imagesUrl, 'video': value}).then((value) {
-          emit(UploadExamitionInfoSuccess());
+    if (pdfFile != null) {
+      await firebase_storage.FirebaseStorage.instance
+          .ref("PDFFiles")
+          .child(id)
+          .putFile(pdfFile!)
+          .then((vedio) {
+        vedio.ref.getDownloadURL().then((value) async {
+          await FirebaseFirestore.instance
+              .collection(ConstantsManger.PATIENTS)
+              .doc(id)
+              .update({'id': id, 'imageList': imagesUrl, 'pdfFile': value}).then(
+                  (value) {
+            emit(UploadExamitionInfoSuccess());
+          });
         });
       });
-    });
+    }
+    else {
+      await FirebaseFirestore.instance
+          .collection(ConstantsManger.PATIENTS)
+          .doc(id)
+          .update({
+        'id': id,
+        'imageList': imagesUrl,
+      }).then((value) {
+        emit(UploadExamitionInfoSuccess());
+      });
+    }
   }
 
-  void uploadPatientExamination({required PatientHistoryModel model}) {
-    FirebaseFirestore.instance
-        .collection(ConstantsManger.PATIENTS)
-        .add(model.toMap())
-        .then((value) {});
-  }
-
-  File ? pdfFile;
+  File? pdfFile;
 
   void getPdfFile() async {
-    FilePickerResult  ? result = await FilePicker.platform
+    FilePickerResult? result = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
-    if(result !=null){
+    if (result != null) {
       pdfFile = File("${result.files.single.path}");
       emit(ChoosePdfFile());
     }
+  }
+
+  UserModel? patientInfo;
+  UserModel? doctorInfo;
+
+  void getPatientInfo({required String id}) {
+    emit(GetPatientInfoLoading());
+    FirebaseFirestore.instance
+        .collection(ConstantsManger.USERS)
+        .doc(id)
+        .get()
+        .then((value) {
+      patientInfo = UserModel.fromJson(value.data() ?? {});
+    }).then((value) {
+      FirebaseFirestore.instance
+          .collection(ConstantsManger.USERS)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get()
+          .then((doctor) {
+        doctorInfo = UserModel.fromJson(doctor.data() ?? {});
+        emit(GetPatientInfoSuccess());
+      });
+    });
   }
 }

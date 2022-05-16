@@ -8,6 +8,7 @@ class LoadingUserInfoState extends ProfileState {}
 class GetUserInfoSuccessProfileState extends ProfileState {}
 class ChangeUserProfileImage extends ProfileState {}
 class ChangePasswordProfileState extends ProfileState {}
+class UpdateUserInfoSuccess extends ProfileState {}
 class PhoneNumberSubmited extends ProfileState {}
 class ErrorOccurred extends ProfileState {
   String errorMsg;

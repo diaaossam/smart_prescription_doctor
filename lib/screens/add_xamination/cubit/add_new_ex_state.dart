@@ -9,3 +9,5 @@ class UploadProductFailerState extends AddNewExState {}
 class UploadExamitionInfoSuccess extends AddNewExState {}
 class UploadExamitionInfoLoading extends AddNewExState {}
 class ChoosePdfFile extends AddNewExState {}
+class GetPatientInfoSuccess extends AddNewExState {}
+class GetPatientInfoLoading extends AddNewExState {}
